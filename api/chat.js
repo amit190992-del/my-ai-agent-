@@ -29,8 +29,7 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({
-      reply: data.output_text
-    });
+      reply: data.output?.[0]?.content?.[0]?.text || "AI se reply nahi mila"
 
   } catch (error) {
     return res.status(500).json({

@@ -86,32 +86,62 @@ button{
 
 </div>
 
-<script>
-function send(){
+<<script>
+async function send(){
 
-  const input=document.getElementById("input");
-  const chat=document.getElementById("chat");
-  const text=input.value.trim();
+  const input = document.getElementById("input");
+  const chat = document.getElementById("chat");
+  const text = input.value.trim();
 
   if(!text) return;
 
   chat.innerHTML +=
-    '<div class="msg user">'+text+'</div>';
+    '<div class="msg user">' + text + '</div>';
 
-  let reply="Achha sawaal hai! 🤖 Abhi mera AI brain connect nahi hua hai. Agle step mein hum ise real AI se connect karenge.";
-
-  if(text.toLowerCase().includes("hello") ||
-     text.toLowerCase().includes("hi")){
-    reply="Hello! 👋 Main tumhara My AI Agent hoon.";
-  }
+  input.value = "";
 
   chat.innerHTML +=
-    '<div class="msg bot">'+reply+'</div>';
+    '<div class="msg bot" id="loading">सोच रहा हूँ... 🤖</div>';
 
-  input.value="";
-  chat.scrollTop=chat.scrollHeight;
+  chat.scrollTop = chat.scrollHeight;
+
+  try {
+
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text
+      })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("loading").remove();
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI error");
+    }
+
+    chat.innerHTML +=
+      '<div class="msg bot">' +
+      (data.reply || "AI से जवाब नहीं मिला।") +
+      '</div>';
+
+  } catch (error) {
+
+    document.getElementById("loading").remove();
+
+    chat.innerHTML +=
+      '<div class="msg bot">माफ़ कीजिए, AI से connection नहीं हो पाया। 🤖</div>';
+
+    console.error(error);
+  }
+
+  chat.scrollTop = chat.scrollHeight;
 }
 </script>
-
 </body>
 </html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My AI Agent</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+    }
+
+    .app {
+      max-width: 600px;
+      margin: auto;
+      min-height: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    #chat {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .message {
+      padding: 12px 15px;
+      margin: 10px 0;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+
+    .bot {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .user {
+      background: #2563eb;
+      color: white;
+      margin-left: auto;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 12px;
+      border-top: 1px solid #ddd;
+      gap: 8px;
+    }
+
+    input {
+      flex: 1;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header>
+    <h1>🤖 My AI Agent</h1>
+    <p>आपका अपना AI Assistant</p>
+  </header>
+
+  <div id="chat">
+    <div class="message bot">
+      नमस्ते! 👋 मैं आपका AI Agent हूँ। आप मुझसे कुछ भी पूछ सकते हैं।
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input
+      id="message"
+      type="text"
+      placeholder="अपना सवाल लिखें..."
+      onkeydown="if(event.key === 'Enter') sendMessage()"
+    >
+
+    <button onclick="sendMessage()">भेजें</button>
+  </div>
+
+</div>
+
+<script>
+  function sendMessage() {
+    const input = document.getElementById("message");
+    const chat = document.getElementById("chat");
+
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    const userMessage = document.createElement("div");
+    userMessage.className = "message user";
+    userMessage.textContent = text;
+
+    chat.appendChild(userMessage);
+
+    input.value = "";
+
+    const botMessage = document.createElement("div");
+    botMessage.className = "message bot";
+
+    botMessage.textContent =
+      "आपने पूछा: " + text +
+      " 😊 अभी मैं शुरुआती संस्करण हूँ। अगले चरण में मुझे असली AI से जोड़ेंगे।";
+
+    chat.appendChild(botMessage);
+
+    chat.scrollTop = chat.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
